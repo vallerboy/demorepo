@@ -34,6 +34,7 @@ public class MainController {
 
     @PostMapping("/")
     public String index(@ModelAttribute("reservationForm") ReservationForm form){
+
         reservationRepository.save(new ReservationModel(form));
         return "index";
     }

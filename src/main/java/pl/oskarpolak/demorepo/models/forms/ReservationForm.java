@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -17,6 +18,7 @@ public class ReservationForm {
     private String lastname;
     @Getter
     @Setter
+    @Pattern(regexp = "2[0-9]{3}-[0-9][1-9]-[0-9][1-9]")
     private String date;
     @Getter
     @Setter
@@ -29,7 +31,6 @@ public class ReservationForm {
     DateTimeFormatter format =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public LocalDate getFormatedDate(){
-        //YYYY-MM-DD
         return LocalDate.parse(date, format);
     }
 }
