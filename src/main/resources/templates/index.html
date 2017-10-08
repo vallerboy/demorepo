@@ -8,11 +8,16 @@
 <center>
     <div style="width: 100%; height: 100%;">
         <form th:action="@{/}" th:object="${reservationForm}" method="post">
-            <input style="width: 50%;" placeholder="Imię" type="text" th:field="*{name}">
-            <input style="width: 50%;" placeholder="Nazwisko" type="text" th:field="*{lastname}">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+            <input  placeholder="Imię" type="text" th:field="*{name}">
             <br/>
+            <p th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></p>
+            <input  placeholder="Nazwisko" type="text" th:field="*{lastname}">
+            <br/>
+            <p th:if="${#fields.hasErrors('adres')}" th:errors="*{adres}"></p>
             <input style="width: 100%;" placeholder="Adres" type="text" th:field="*{adres}">
             <br />
+            <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></p>
             <input style="width: 100%;" placeholder="Data" type="text" th:field="*{date}">
             <br />
             <input style="width: 100%;" type="submit" value="Zarezerwuj">
