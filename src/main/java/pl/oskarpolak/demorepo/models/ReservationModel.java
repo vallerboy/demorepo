@@ -2,6 +2,7 @@ package pl.oskarpolak.demorepo.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.oskarpolak.demorepo.models.forms.ReservationForm;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -19,4 +20,11 @@ public class ReservationModel {
      private String lastname;
      private Date date;
      private String adres;
+
+     public ReservationModel(ReservationForm form){
+          name = form.getName();
+          lastname = form.getLastname();
+          date = form.getDate();
+          adres = form.getAdres();
+     }
 }

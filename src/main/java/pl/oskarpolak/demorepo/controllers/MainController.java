@@ -2,9 +2,13 @@ package pl.oskarpolak.demorepo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.oskarpolak.demorepo.models.ReservationModel;
+import pl.oskarpolak.demorepo.models.forms.ReservationForm;
 import pl.oskarpolak.demorepo.models.repositories.ReservationRepository;
 import pl.oskarpolak.demorepo.models.services.StringService;
 
@@ -23,17 +27,14 @@ public class MainController {
     ReservationRepository reservationRepository;
 
     @GetMapping("/")
-    @ResponseBody
-    public String index(){
-        // w tym miejscu bedziemy sobie reecznie zapisywac cos do tabeli (encji)
-        ReservationModel model = new ReservationModel();
-        model.setAdres("Kraków Rynek");
-        model.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
-        model.setLastname("Polak");
-        model.setName("Oskar");
+    public String index(Model model){
+        model.addAttribute("reservationForm", new ReservationForm());
+        return "index";
+    }
 
-        reservationRepository.save(model);
+    @PostMapping("/")
+    public String index(@ModelAttribute("reservationForm") ReservationForm form){
 
-        return "Hej, zapisałem dane";
+        return "index";
     }
 }
