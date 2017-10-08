@@ -24,7 +24,7 @@ public class ReservationForm {
     private String lastname;
     @Getter
     @Setter
-    @Pattern(regexp = "2[0-9]{3}-[0-9][1-9]-[0-9][1-9]", message = "Write date in yyyy-mm-dd format")
+    @Pattern(regexp = "2[0-9]{3}-[0-9][0-9]-[0-9][0-9]", message = "Write date in yyyy-mm-dd format")
     private String date;
     @Getter
     @Setter

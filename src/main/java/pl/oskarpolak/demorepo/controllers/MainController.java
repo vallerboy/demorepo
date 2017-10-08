@@ -33,6 +33,8 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model){
         model.addAttribute("reservationForm", new ReservationForm());
+        model.addAttribute("reservations", reservationRepository.findByDateIsBetween(LocalDate.now(),
+                LocalDate.now().plusWeeks(1)));
         return "index";
     }
 
@@ -40,17 +42,20 @@ public class MainController {
     public String index(@ModelAttribute("reservationForm") @Valid ReservationForm form, BindingResult result, Model model){
         if(result.hasErrors()){
               return "index";
+        }else if(reservationRepository.existsByDateEquals(form.getFormatedDate())){
+            model.addAttribute("error", "Ten dzień jest już zajęty");
         }
         reservationRepository.save(new ReservationModel(form));
         return "index";
     }
 
-    @GetMapping("/test")
-    @ResponseBody
-    public String index() {
-        ReservationModel reservationModel =
-                reservationRepository.findByNameAndLastname("oskar", "polak");
-
-        return reservationModel.getDate().toString();
-    }
+//    @GetMapping("/test")
+//    @ResponseBody
+//    public String index() {
+//        List<ReservationModel> reservationModel = reservationRepository.findByDateAfter(LocalDate.of(2017, 1, 1));
+//
+//        return reservationModel.stream()
+//                .map(s -> s.toString())
+//                .collect(Collectors.joining(" , "));
+//    }
 }
