@@ -6,6 +6,8 @@ import pl.oskarpolak.demorepo.models.forms.ReservationForm;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -18,7 +20,7 @@ public class ReservationModel {
      //@Column(name = "name1")
      private String name;
      private String lastname;
-     private Date date;
+     private LocalDate date;
      private String adres;
 
      public ReservationModel(ReservationForm form){

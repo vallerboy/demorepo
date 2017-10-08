@@ -1,13 +1,11 @@
 package pl.oskarpolak.demorepo.models.forms;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class ReservationForm {
@@ -24,15 +22,14 @@ public class ReservationForm {
     @Setter
     private String adres;
 
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    //Stare podejscie do czasu
+    //DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    public Date getFormatedDate(){
+    // Nowe podejscie do czasu
+    DateTimeFormatter format =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public LocalDate getFormatedDate(){
         //YYYY-MM-DD
-        try {
-            return new Date(format.parse(date).getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return LocalDate.parse(date, format);
     }
 }
