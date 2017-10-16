@@ -17,5 +17,6 @@ public interface ReservationRepository extends CrudRepository<ReservationModel, 
 
       boolean existsByDateEquals(LocalDate date);
       List<ReservationModel> findByDateIsBetween(LocalDate date1, LocalDate date2);
+      List<ReservationModel> findByLastname(String lastname);
 
 }
