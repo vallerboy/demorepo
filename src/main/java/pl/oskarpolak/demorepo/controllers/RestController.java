@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.oskarpolak.demorepo.models.ReservationModel;
 import pl.oskarpolak.demorepo.models.repositories.ReservationRepository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 @Controller
 public class RestController {
@@ -33,6 +36,25 @@ public class RestController {
     @RequestMapping(value = "/rest/reservation", method = RequestMethod.POST,
     produces = "application/json")
     public ResponseEntity reservation(@RequestBody ReservationModel model){
+        reservationRepository.save(model);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/rest/reservation/{id}", method = RequestMethod.DELETE,
+            produces = "application/json")
+    public ResponseEntity reservation(@PathVariable("id") int id){
+        reservationRepository.delete(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/rest/reservation/{id}/{date}", method = RequestMethod.PUT,
+            produces = "application/json")
+    public ResponseEntity reservationDateChange(@PathVariable("id") int id,
+                                                @PathVariable("date") String date){
+        ReservationModel model = reservationRepository.findOne(id);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        model.setDate(LocalDate.from(formatter.parse(date)));
         reservationRepository.save(model);
         return new ResponseEntity(HttpStatus.OK);
     }
