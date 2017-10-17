@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.oskarpolak.demorepo.models.KeyModel;
 import pl.oskarpolak.demorepo.models.ReservationModel;
+import pl.oskarpolak.demorepo.models.repositories.KeyRepository;
 import pl.oskarpolak.demorepo.models.repositories.ReservationRepository;
 
 import java.time.LocalDate;
@@ -18,13 +20,22 @@ public class RestController {
     @Autowired
     ReservationRepository reservationRepository;
 
+    @Autowired
+    KeyRepository keyRepository;
+
 
     @RequestMapping(value = "/rest/reservation", method = RequestMethod.GET,
     produces = "application/json")
-    public ResponseEntity reservationIndex(@RequestHeader("Password-App") String password){
+    public ResponseEntity reservationIndex(@RequestHeader("Password-App") String key){
 
-        if(!password.equalsIgnoreCase("akademia")){
-            return new ResponseEntity("Bad userid", HttpStatus.BAD_REQUEST);
+        if(keyRepository.existsByKeyEquals(key)){
+            KeyModel keyModel = keyRepository.findByKey(key);
+            if(keyModel.getCounter() >= 100){
+                return new ResponseEntity("Too many uses", HttpStatus.NOT_ACCEPTABLE);
+            }else{
+                keyModel.setCounter(keyModel.getCounter() + 1);
+                keyRepository.save(keyModel);
+            }
         }
 
         return new ResponseEntity(reservationRepository.findAll(),HttpStatus.OK);
