@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "key")
+@Table(name = "keymodel")
 public class KeyModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

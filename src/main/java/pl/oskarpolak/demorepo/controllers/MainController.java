@@ -1,6 +1,7 @@
 package pl.oskarpolak.demorepo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,8 +34,10 @@ public class MainController {
     @GetMapping("/")
     public String index(Model model){
         model.addAttribute("reservationForm", new ReservationForm());
-        model.addAttribute("reservations", reservationRepository.findByDateIsBetween(LocalDate.now(),
-                LocalDate.now().plusWeeks(1)));
+        PageRequest pageRequest = new PageRequest(1, 2);
+        model.addAttribute("reservations", reservationRepository.findByDateIsBetween(
+                LocalDate.now(),
+                LocalDate.now().plusWeeks(1), pageRequest).getContent());
         return "index";
     }
 
