@@ -2,6 +2,7 @@ package pl.oskarpolak.demorepo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +22,10 @@ public class RestController {
     @Autowired
     ReservationRepository reservationRepository;
 
+    /* PAGINACJA */
+
     @RequestMapping(value = "/rest/reservation", method = RequestMethod.GET,
-    produces = "application/json")
+    produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity reservation(){
         return new ResponseEntity(reservationRepository.findAll(),HttpStatus.OK);
     }
@@ -53,9 +56,22 @@ public class RestController {
                                                 @PathVariable("date") String date){
         ReservationModel model = reservationRepository.findOne(id);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate newDate = LocalDate.from(formatter.parse(date));
 
-        model.setDate(LocalDate.from(formatter.parse(date)));
+        if(reservationRepository.existsByDateEquals(newDate)){
+            return new ResponseEntity("This date is busy", HttpStatus.CONFLICT);
+        }
+
+        model.setDate(newDate);
         reservationRepository.save(model);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/rest/reservation", method = RequestMethod.PUT,
+    produces = "application/json")
+    public ResponseEntity responseAct(@RequestBody ReservationModel reservationModel){
+        reservationRepository.save(reservationModel);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
