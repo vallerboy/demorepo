@@ -28,8 +28,8 @@ public class RestController {
     produces = "application/json")
     public ResponseEntity reservationIndex(@RequestHeader("Password-App") String key){
 
-        if(keyRepository.existsByKeyEquals(key)){
-            KeyModel keyModel = keyRepository.findByKey(key);
+        if(keyRepository.existsByText(key)){
+            KeyModel keyModel = keyRepository.findByText(key);
             if(keyModel.getCounter() >= 100){
                 return new ResponseEntity("Too many uses", HttpStatus.NOT_ACCEPTABLE);
             }else{

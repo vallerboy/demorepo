@@ -12,6 +12,6 @@ public class KeyModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String key;
+    private String text;
     private int counter;
 }
