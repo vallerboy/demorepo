@@ -2,13 +2,9 @@ package pl.oskarpolak.demorepo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import pl.oskarpolak.demorepo.models.ReservationModel;
 import pl.oskarpolak.demorepo.models.repositories.ReservationRepository;
 
@@ -22,11 +18,15 @@ public class RestController {
     @Autowired
     ReservationRepository reservationRepository;
 
-    /* PAGINACJA */
 
     @RequestMapping(value = "/rest/reservation", method = RequestMethod.GET,
-    produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity reservation(){
+    produces = "application/json")
+    public ResponseEntity reservationIndex(@RequestHeader("Password-App") String password){
+
+        if(!password.equalsIgnoreCase("akademia")){
+            return new ResponseEntity("Bad userid", HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity(reservationRepository.findAll(),HttpStatus.OK);
     }
 

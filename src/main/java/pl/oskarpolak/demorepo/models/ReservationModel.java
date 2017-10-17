@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import pl.oskarpolak.demorepo.models.forms.ReservationForm;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,16 +17,23 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "reservation")
 @NoArgsConstructor
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ReservationModel {
      @Id
      @GeneratedValue(strategy = GenerationType.AUTO)
+     @XmlAttribute
      private int id;
      //@Column(name = "name1")
+     @XmlElement
      private String name;
+     @XmlElement
      private String lastname;
+     @XmlElement
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
      @JsonDeserialize(using = LocalDateDeserializer.class)
      private LocalDate date;
+     @XmlElement
      private String adres;
 
      public ReservationModel(ReservationForm form){
