@@ -27,6 +27,8 @@
             <input style="width: 100%;" type="submit" value="Zarezerwuj">
         </form>
 
+        <a th:href="@{'/' + ${actualPage.getPageNumber()+1}}">Następna</a>
+
         <table>
             <tr>
                 <th>Imię</th>

@@ -5,10 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.oskarpolak.demorepo.models.ReservationModel;
 import pl.oskarpolak.demorepo.models.forms.ReservationForm;
 import pl.oskarpolak.demorepo.models.repositories.ReservationRepository;
@@ -31,10 +28,12 @@ public class MainController {
     @Autowired
     ReservationRepository reservationRepository;
 
-    @GetMapping("/")
-    public String index(Model model){
+    @GetMapping("/{page}")
+    public String index(Model model, @PathVariable("page") int pageNumber){
         model.addAttribute("reservationForm", new ReservationForm());
-        PageRequest pageRequest = new PageRequest(1, 2);
+        PageRequest pageRequest = new PageRequest(pageNumber, 2);
+        model.addAttribute("actualPage", pageRequest);
+
         model.addAttribute("reservations", reservationRepository.findByDateIsBetween(
                 LocalDate.now(),
                 LocalDate.now().plusWeeks(1), pageRequest).getContent());
