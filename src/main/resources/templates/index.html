@@ -27,7 +27,9 @@
             <input style="width: 100%;" type="submit" value="Zarezerwuj">
         </form>
 
-        <a  th:href="@{'/' + ${reservations.getNumber()+1}}">Następna</a>
+        <a  th:if="${reservations.hasNext()}" th:href="@{'/' + ${reservations.getNumber()+1}}">Następna</a>
+        |
+        <a  th:if="${reservations.hasPrevious()}" th:href="@{'/' + ${reservations.getNumber()-1}}">Poprzednia</a>
 
         <table>
             <tr>
