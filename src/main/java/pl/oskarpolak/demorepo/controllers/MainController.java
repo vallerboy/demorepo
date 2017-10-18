@@ -32,11 +32,10 @@ public class MainController {
     public String index(Model model, @PathVariable("page") int pageNumber){
         model.addAttribute("reservationForm", new ReservationForm());
         PageRequest pageRequest = new PageRequest(pageNumber, 2);
-        model.addAttribute("actualPage", pageRequest);
 
         model.addAttribute("reservations", reservationRepository.findByDateIsBetween(
                 LocalDate.now(),
-                LocalDate.now().plusWeeks(1), pageRequest).getContent());
+                LocalDate.now().plusWeeks(1), pageRequest));
         return "index";
     }
 

@@ -27,7 +27,7 @@
             <input style="width: 100%;" type="submit" value="Zarezerwuj">
         </form>
 
-        <a th:href="@{'/' + ${actualPage.getPageNumber()+1}}">Następna</a>
+        <a  th:href="@{'/' + ${reservations.getNumber()+1}}">Następna</a>
 
         <table>
             <tr>
@@ -36,7 +36,7 @@
                 <th>Adres</th>
                 <th>Data</th>
             </tr>
-            <th:block th:each="reservation : ${reservations}">
+            <th:block th:each="reservation : ${reservations.getContent()}">
                 <tr>
                     <th th:text="${reservation.name}"></th>
                     <th th:text="${reservation.lastname}"></th>
